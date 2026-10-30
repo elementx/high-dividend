@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>高股息与综合股东回报投研工作台（美的集团 0300.HK 标杆框架）</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .tab-active {
+      background-color: #0f172a;
+      color: #ffffff;
+      box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.15);
+    }
+    .tab-inactive {
+      background-color: #ffffff;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    .tab-inactive:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    input[type="range"] {
+      accent-color: #2563eb;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Header -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider bg-blue-600 text-white rounded-full">Benchmark Framework v2.0</span>
+          <span class="text-xs text-slate-400">标杆锚：美的集团 H股 (0300.HK) / A股 (000333.SZ) · 2026Q3 实绩校准</span>
+        </div>
+        <h1 class="text-lg sm:text-xl font-bold mt-1 tracking-tight">高股息与综合股东回报投研对比工作台</h1>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btn-nav-framework" onclick="switchTab('framework')" class="tab-active px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all">
+          1. 五维投研框架
+        </button>
+        <button id="btn-nav-compare" onclick="switchTab('compare')" class="tab-inactive px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all">
+          2. 多标的横向对比
+        </button>
+        <button id="btn-nav-calculator" onclick="switchTab('calculator')" class="tab-inactive px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all">
+          3. 股东回报与建仓测算器
+        </button>
+        <button id="btn-nav-markdown" onclick="switchTab('markdown')" class="tab-inactive px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all">
+          4. 导出 MD 报告模板
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast Banner -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 hidden">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 flex items-center gap-3 text-sm">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="toast-message">操作成功</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- ==================== TAB 1: 五维投研框架 ==================== -->
+    <section id="view-framework" class="space-y-6">
+      <!-- Recommendation Banner: HTML vs MD -->
+      <div class="bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-md border border-blue-900/50">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 text-xs font-semibold text-blue-300 bg-blue-900/50 px-3 py-1 rounded-full">
+              <span>为什么推荐「交互式 HTML 工作台 + 内置 MD 一键导出」双轨模式？</span>
+            </div>
+            <h2 class="text-base sm:text-lg font-bold">以美的集团（0300.HK）为标杆，沉淀可复用、可横向比价、可动态算价的高股息投研体系</h2>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-4xl">
+              高股息标的投研不仅需要定性逻辑沉淀，更需要高频计算<strong>「综合股东回报率（现金分红+注销回购）」</strong>、<strong>「PE-ROE回归残差」</strong>与<strong>「DDM九宫格安全边际」</strong>。HTML 格式支持实时滑块调参、新增标的自动回归绘图与建仓档位高亮；同时在「Tab 4」内置了标准化 Markdown 模板实时生成器，兼顾交互测算与文档归档。
+            </p>
+          </div>
+          <div class="flex sm:flex-row lg:flex-col gap-2 shrink-0">
+            <button onclick="switchTab('calculator')" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold rounded-xl shadow transition">
+              立即体验建仓测算器 →
+            </button>
+            <button onclick="switchTab('compare')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-medium rounded-xl border border-slate-700 transition">
+              查看同业横向对比
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Midea Benchmark Snapshot KPIs -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-500 font-medium">标杆锚：美的H (0300.HK)</div>
+          <div class="text-xl font-bold text-slate-900 mt-1">93.65 <span class="text-xs font-normal text-slate-500">HKD</span></div>
+          <div class="text-xs text-emerald-600 font-medium mt-1">较A股(87元)折价 7.6%</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-500 font-medium">H股综合股东回报率</div>
+          <div class="text-xl font-bold text-blue-600 mt-1">7.20% - 7.42%</div>
+          <div class="text-xs text-slate-500 mt-1">A股87元基准为 6.70%</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-500 font-medium">纯股息 + 注销回购</div>
+          <div class="text-xl font-bold text-slate-900 mt-1">5.24% <span class="text-sm text-blue-600">+ 1.96%</span></div>
+          <div class="text-xs text-slate-500 mt-1">26年已回购118亿全注销</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-500 font-medium">长期 EPS 复利中枢</div>
+          <div class="text-xl font-bold text-emerald-600 mt-1">8.0% - 10.0%</div>
+          <div class="text-xs text-slate-500 mt-1">内生6-8% + 缩股本1.8%</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-500 font-medium">稳态 ROE / 26H1平均</div>
+          <div class="text-xl font-bold text-slate-900 mt-1">~20.0% <span class="text-xs font-normal text-slate-500">/ 12.13%</span></div>
+          <div class="text-xs text-emerald-600 font-medium mt-1">领先同业均值 +3.41pct</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-500 font-medium">核心建仓击球区</div>
+          <div class="text-xl font-bold text-amber-600 mt-1">85 - 92 <span class="text-xs font-normal text-slate-500">HKD</span></div>
+          <div class="text-xs text-slate-500 mt-1">DDM保守底线 90.5 HKD</div>
+        </div>
+      </div>
+
+      <!-- 5 Pillars Interactive Cards -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">高股息与现金牛龙头「五维投研分析框架」（点击维度卡片切换详情）</h3>
+            <p class="text-xs text-slate-500 mt-0.5">后续分析任何红利/高股息标的（如家电、能源、公用事业、电信、消费龙头），均严格按此五步法对齐检验</p>
+          </div>
+          <span class="text-xs font-medium px-3 py-1 bg-slate-100 text-slate-700 rounded-lg self-start sm:self-auto">已永久沉淀至您的专属投研技能库</span>
+        </div>
+
+        <!-- Pillar Selector Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5" id="pillar-buttons">
+          <button onclick="selectPillar(0)" id="pillar-btn-0" class="p-3.5 rounded-xl border text-left transition-all bg-blue-50/80 border-blue-600 ring-1 ring-blue-600">
+            <div class="text-xs font-bold text-blue-700">STEP 01</div>
+            <div class="text-sm font-bold text-slate-900 mt-0.5">经营底色还原</div>
+            <div class="text-xs text-slate-500 mt-1">剔除套保/非经噪音</div>
+          </button>
+          <button onclick="selectPillar(1)" id="pillar-btn-1" class="p-3.5 rounded-xl border text-left transition-all bg-white border-slate-200 hover:bg-slate-50">
+            <div class="text-xs font-bold text-slate-400">STEP 02</div>
+            <div class="text-sm font-bold text-slate-900 mt-0.5">业绩韧性与复利</div>
+            <div class="text-xs text-slate-500 mt-1">杜邦三因子跃迁检验</div>
+          </button>
+          <button onclick="selectPillar(2)" id="pillar-btn-2" class="p-3.5 rounded-xl border text-left transition-all bg-white border-slate-200 hover:bg-slate-50">
+            <div class="text-xs font-bold text-slate-400">STEP 03</div>
+            <div class="text-sm font-bold text-slate-900 mt-0.5">估值溢价归因</div>
+            <div class="text-xs text-slate-500 mt-1">PE回归+A/H折价+DDM</div>
+          </button>
+          <button onclick="selectPillar(3)" id="pillar-btn-3" class="p-3.5 rounded-xl border text-left transition-all bg-white border-slate-200 hover:bg-slate-50">
+            <div class="text-xs font-bold text-slate-400">STEP 04</div>
+            <div class="text-sm font-bold text-slate-900 mt-0.5">综合回报建仓锚</div>
+            <div class="text-xs text-slate-500 mt-1">分红+注销回购五档法</div>
+          </button>
+          <button onclick="selectPillar(4)" id="pillar-btn-4" class="p-3.5 rounded-xl border text-left transition-all bg-white border-slate-200 hover:bg-slate-50">
+            <div class="text-xs font-bold text-slate-400">STEP 05</div>
+            <div class="text-sm font-bold text-slate-900 mt-0.5">证伪红线与风控</div>
+            <div class="text-xs text-slate-500 mt-1">防伪高股息价值陷阱</div>
+          </button>
+        </div>
+
+        <!-- Pillar Detail Box -->
+        <div id="pillar-detail-container" class="bg-slate-50 rounded-xl p-5 border border-slate-200/80">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: 多标的横向对比 ==================== -->
+    <section id="view-compare" class="space-y-6 hidden">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">高股息标的横向比价矩阵（以美的集团 0300.HK 为基准锚）</h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              对比维度涵盖：ROE效率、业绩增速韧性、纯股息率、100%注销回购收益率、<strong>综合股东回报率</strong>及<strong>长期预期年化总回报（TSR）</strong>
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleAddStockModal(true)" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow-sm transition">
+              + 新增自定义高股息标的
+            </button>
+            <button onclick="resetPeerList()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition">
+              重置默认可比组
+            </button>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-900 text-white">
+                <th class="py-3 px-3 rounded-tl-lg font-semibold">公司名称 (代码)</th>
+                <th class="py-3 px-3 text-right font-semibold">当前股价</th>
+                <th class="py-3 px-3 text-right font-semibold">PE (TTM)</th>
+                <th class="py-3 px-3 text-right font-semibold">26H1平均ROE<br><span class="text-[10px] text-slate-300 font-normal">(年化ROE)</span></th>
+                <th class="py-3 px-3 text-right font-semibold">26H1归母YoY</th>
+                <th class="py-3 px-3 text-right font-semibold">分红率</th>
+                <th class="py-3 px-3 text-right font-semibold">纯现金股息率</th>
+                <th class="py-3 px-3 text-right font-semibold">注销回购收益率</th>
+                <th class="py-3 px-3 text-right font-semibold bg-blue-900">综合股东回报率</th>
+                <th class="py-3 px-3 text-right font-semibold">预期内生增速g</th>
+                <th class="py-3 px-3 text-right font-semibold bg-emerald-900">预期年化TSR</th>
+                <th class="py-3 px-3 text-center rounded-tr-lg font-semibold">操作</th>
+              </tr>
+            </thead>
+            <tbody id="peer-table-body" class="divide-y divide-slate-200">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Formula Explanation Note -->
+        <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3.5 text-xs text-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <strong>核心对比法则：</strong>单看账面静态股息率，美的H（5.24%）低于格力A（7.53%）与海尔H（6.61%）；但计入<strong>1.96%的100%注销式回购</strong>与<strong>6.5%的内生增长韧性</strong>后，美的H的<strong>综合股东回报率（7.20%）</strong>与<strong>长期预期年化总回报 TSR（13.70%）</strong>全面胜出。
+          </div>
+          <span class="text-blue-700 font-semibold shrink-0">点击任意行「载入测算」可推演五档建仓价</span>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Chart 1: PE vs ROE Regression -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-slate-900">估值溢价归因：PE (TTM) vs. ROE 截面回归检验</h3>
+              <p class="text-xs text-slate-500">检验高PE是否有高ROE支撑（虚线为理论回归线：PE = 1.05 + 1.04×ROE + 0.12×增速）</p>
+            </div>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="chart-pe-roe"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Total Shareholder Return (TSR) Breakdown -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-slate-900">长期复利拆解：纯股息率 + 注销回购增厚 + 内生增长 (TSR)</h3>
+              <p class="text-xs text-slate-500">综合股东回报率（蓝+紫）决定安全垫，内生增长（绿）决定长期复利弹性</p>
+            </div>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="chart-tsr-stack"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: 股东回报与建仓测算器 ==================== -->
+    <section id="view-calculator" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left Column: Interactive Parameters Input -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">标的参数输入面板</h2>
+              <p class="text-xs text-slate-500">拖动滑块或输入数值，实时测算五档建仓价与DDM内在价值</p>
+            </div>
+            <select id="calc-preset-select" onchange="loadPresetToCalculator(this.value)" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50 font-medium text-slate-800">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-600 font-medium mb-1">标的名称与代码</label>
+                <input type="text" id="inp-name" value="美的集团H (0300.HK)" oninput="runCalculator()" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg font-semibold text-slate-900" />
+              </div>
+              <div>
+                <label class="block text-slate-600 font-medium mb-1">计价币种 / 汇率折算(兑RMB)</label>
+                <div class="flex gap-1.5">
+                  <select id="inp-currency" onchange="runCalculator()" class="px-2 py-1.5 border border-slate-300 rounded-lg bg-slate-50 font-medium">
+                    <option value="HKD" selected>HKD</option>
+                    <option value="CNY">CNY</option>
+                    <option value="USD">USD</option>
+                  </select>
+                  <input type="number" id="inp-fx" value="1.16498" step="0.01" oninput="runCalculator()" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-right" title="1元人民币兑换多少本币" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Current Price Slider -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-semibold text-slate-800">当前股价 (<span class="lbl-curr">HKD</span>)</label>
+                <input type="number" id="inp-price" value="93.65" step="0.5" oninput="syncSlider('price', this.value)" class="w-24 px-2 py-1 border border-blue-400 rounded text-right font-bold text-blue-700 bg-white" />
+              </div>
+              <input type="range" id="sld-price" min="20" max="200" step="0.5" value="93.65" oninput="syncInput('price', this.value)" class="w-full" />
+              <div class="flex justify-between text-[11px] text-slate-400 mt-0.5">
+                <span>折合人民币: <strong id="out-rmb-price" class="text-slate-700">80.39</strong> 元</span>
+                <span>对照A股/基准价: <input type="number" id="inp-ashare" value="87.00" step="0.5" oninput="runCalculator()" class="w-16 px-1 py-0.5 border border-slate-300 rounded text-right text-slate-700" /> 元</span>
+              </div>
+            </div>
+
+            <!-- DPS & EPS -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <label class="block text-slate-700 font-semibold mb-1">保守基准每股分红 DPS (<span class="lbl-curr">HKD</span>)</label>
+                <input type="number" id="inp-dps-base" value="4.91" step="0.05" oninput="runCalculator()" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-right font-semibold bg-white" />
+                <div class="text-[11px] text-slate-400 mt-1">锚定上年实际或保底承诺DPS</div>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <label class="block text-slate-700 font-semibold mb-1">预期前瞻 DPS (<span class="lbl-curr">HKD</span>)</label>
+                <input type="number" id="inp-dps-fwd" value="5.43" step="0.05" oninput="runCalculator()" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-right font-semibold bg-white" />
+                <div class="text-[11px] text-slate-400 mt-1">26E EPS × 目标分红率(74%)</div>
+              </div>
+            </div>
+
+            <!-- Buyback & Shares -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-200">
+                <label class="block text-blue-900 font-semibold mb-1">100%注销式回购额 (亿人民币)</label>
+                <input type="number" id="inp-buyback" value="118.0" step="5" oninput="runCalculator()" class="w-full px-2.5 py-1.5 border border-blue-300 rounded-lg text-right font-bold text-blue-700 bg-white" />
+                <div class="text-[11px] text-blue-600 mt-1">仅计入明确注销的回购金额</div>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <label class="block text-slate-700 font-semibold mb-1">总股本 (亿股) / 26E EPS (<span class="lbl-curr">HKD</span>)</label>
+                <div class="flex gap-1.5">
+                  <input type="number" id="inp-shares" value="76.0" step="0.5" oninput="runCalculator()" class="w-1/2 px-2 py-1.5 border border-slate-300 rounded-lg text-right bg-white" title="总股本(亿股)" />
+                  <input type="number" id="inp-eps" value="7.34" step="0.1" oninput="runCalculator()" class="w-1/2 px-2 py-1.5 border border-slate-300 rounded-lg text-right bg-white" title="26E EPS(本币)" />
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">每股注销回购增厚: <strong id="out-buyback-ps" class="text-blue-700">1.81</strong></div>
+              </div>
+            </div>
+
+            <!-- DDM & Risk Check Inputs -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <label class="text-slate-600 font-medium">要求回报率 / 折现率 r (%)</label>
+                  <span id="lbl-r" class="font-bold text-slate-800">10.0%</span>
+                </div>
+                <input type="range" id="inp-r" min="7.0" max="13.0" step="0.25" value="10.0" oninput="runCalculator()" class="w-full" />
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <label class="text-slate-600 font-medium">永续/内生增长率 g (%)</label>
+                  <span id="lbl-g" class="font-bold text-slate-800">5.0%</span>
+                </div>
+                <input type="range" id="inp-g" min="1.0" max="8.0" step="0.25" value="5.0" oninput="runCalculator()" class="w-full" />
+              </div>
+            </div>
+
+            <!-- Trap Guardrail Inputs -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-slate-600 font-medium mb-1">稳态经营现金流/净利 (OCF/NP)</label>
+                <input type="number" id="inp-ocf" value="1.05" step="0.05" oninput="runCalculator()" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-right font-medium" />
+              </div>
+              <div>
+                <label class="block text-slate-600 font-medium mb-1">H股申报淡仓占流通盘 (%)</label>
+                <input type="number" id="inp-short" value="18.53" step="0.5" oninput="runCalculator()" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-right font-medium" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Live Output & 5-Tier Matrix -->
+        <div class="lg:col-span-7 space-y-5">
+          <!-- Real-time Verdict Banner -->
+          <div class="bg-slate-900 text-white rounded-2xl p-5 shadow-md space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <span class="text-xs text-blue-400 font-semibold uppercase tracking-wider">实时定价与建仓档位诊断</span>
+                <h3 id="calc-title-out" class="text-lg font-bold mt-0.5">美的集团H (0300.HK) @ 93.65 HKD</h3>
+              </div>
+              <div id="calc-tier-badge" class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs sm:text-sm font-bold self-start sm:self-auto">
+                第三档：合理偏低标配区（底仓 30%-50%）
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="bg-slate-800/90 p-3 rounded-xl border border-slate-700">
+                <div class="text-[11px] text-slate-400">保守 / 预期纯股息率</div>
+                <div id="out-div-yield" class="text-base sm:text-lg font-bold text-white mt-0.5">5.24% / 5.80%</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">较10Y中债利差 <span id="out-spread-cn" class="text-emerald-400">+344bp</span></div>
+              </div>
+              <div class="bg-blue-950/80 p-3 rounded-xl border border-blue-700/60">
+                <div class="text-[11px] text-blue-300 font-medium">综合股东回报率 (主锚)</div>
+                <div id="out-total-yield" class="text-base sm:text-lg font-bold text-blue-300 mt-0.5">7.17% - 7.73%</div>
+                <div class="text-[11px] text-blue-400 mt-0.5">含注销回购 <span id="out-bb-yield">+1.93%</span></div>
+              </div>
+              <div class="bg-slate-800/90 p-3 rounded-xl border border-slate-700">
+                <div class="text-[11px] text-slate-400">DDM 中性内在价值</div>
+                <div id="out-ddm-mid" class="text-base sm:text-lg font-bold text-emerald-400 mt-0.5">108.60 HKD</div>
+                <div id="out-ddm-margin" class="text-[11px] text-slate-300 mt-0.5">现价折价安全垫 +13.8%</div>
+              </div>
+              <div class="bg-slate-800/90 p-3 rounded-xl border border-slate-700">
+                <div class="text-[11px] text-slate-400">A/H 折溢价率 (同股同权)</div>
+                <div id="out-ah-discount" class="text-base sm:text-lg font-bold text-amber-300 mt-0.5">折价 -7.60%</div>
+                <div id="out-pe-fwd" class="text-[11px] text-slate-400 mt-0.5">26E PE: 12.76x</div>
+              </div>
+            </div>
+
+            <!-- 3 Guardrail Checks -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs" id="guardrail-box">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- 5-Tier Entry Timing Matrix Table -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm sm:text-base font-bold text-slate-900">基于「综合股东回报率 + 纯股息率」的五档建仓与止盈决策表</h3>
+              <span class="text-xs text-slate-500">当前股价所处档位已高亮标记</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                    <th class="py-2.5 px-3 font-semibold">建仓/止盈档位</th>
+                    <th class="py-2.5 px-3 font-semibold">目标综合回报率</th>
+                    <th class="py-2.5 px-3 font-semibold">触发价格区间</th>
+                    <th class="py-2.5 px-3 font-semibold">对应保守纯股息率</th>
+                    <th class="py-2.5 px-3 font-semibold">对应 26E PE</th>
+                    <th class="py-2.5 px-3 font-semibold">建议仓位与执行纪律</th>
+                  </tr>
+                </thead>
+                <tbody id="tier-table-body" class="divide-y divide-slate-200">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- DDM 3x3 Sensitivity Grid -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <h3 class="text-sm sm:text-base font-bold text-slate-900">DDM 股息折现九宫格安全边际矩阵 (V = D₁ / (r - g))</h3>
+              <span class="text-xs text-slate-500">括号内为现价相对内在价值的折价安全边际（正值代表现价低估）</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-center border-collapse text-xs" id="ddm-grid-table">
+                <!-- Populated by JS -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: 导出 MD 报告模板 ==================== -->
+    <section id="view-markdown" class="space-y-6 hidden">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">标准化高股息投研框架 Markdown 生成器（含当前测算数据）</h2>
+            <p class="text-xs text-slate-500 mt-0.5">一键复制或下载 `.md` 文件，可直接粘贴至 Notion、Obsidian 或作为后续分析新标的的标准 Prompt / 报告模板</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="copyMarkdownTemplate()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold rounded-xl shadow transition">
+              复制 Markdown 全文
+            </button>
+            <button onclick="downloadMarkdownTemplate()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold rounded-xl shadow transition">
+              下载 .md 文件
+            </button>
+          </div>
+        </div>
+
+        <textarea id="md-template-output" readonly class="w-full h-[520px] p-4 font-mono text-xs bg-slate-950 text-slate-100 rounded-xl border border-slate-800 focus:outline-none leading-relaxed"></textarea>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal for Adding Custom Peer Stock -->
+  <div id="modal-add-stock" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-slate-900">新增高股息对比标的</h3>
+        <button onclick="toggleAddStockModal(false)" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-1">✕</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="col-span-2 sm:col-span-1">
+          <label class="block text-slate-600 font-medium mb-1">公司名称与代码</label>
+          <input type="text" id="add-name" placeholder="例如：中国神华H (1088.HK)" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div class="col-span-2 sm:col-span-1">
+          <label class="block text-slate-600 font-medium mb-1">当前股价与币种</label>
+          <div class="flex gap-1.5">
+            <input type="number" id="add-price" value="35.0" step="0.1" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+            <select id="add-curr" class="px-2 py-2 border border-slate-300 rounded-lg bg-slate-50">
+              <option value="HKD">HKD</option>
+              <option value="CNY">CNY</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-600 font-medium mb-1">PE (TTM, 倍)</label>
+          <input type="number" id="add-pe" value="9.5" step="0.1" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-slate-600 font-medium mb-1">半年度平均 ROE (%)</label>
+          <input type="number" id="add-roe" value="9.2" step="0.1" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-slate-600 font-medium mb-1">当期归母净利 YoY (%)</label>
+          <input type="number" id="add-yoy" value="-5.0" step="0.5" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-slate-600 font-medium mb-1">分红率 (%)</label>
+          <input type="number" id="add-payout" value="75.0" step="1" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-slate-600 font-medium mb-1">纯现金股息率 (%)</label>
+          <input type="number" id="add-div" value="7.2" step="0.1" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-slate-600 font-medium mb-1">100%注销回购收益率 (%)</label>
+          <input type="number" id="add-bb" value="0.5" step="0.1" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+        <div class="col-span-2">
+          <label class="block text-slate-600 font-medium mb-1">预期长期内生利润增速 g (%)</label>
+          <input type="number" id="add-g" value="3.0" step="0.5" class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="toggleAddStockModal(false)" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-medium text-slate-600 hover:bg-slate-50">取消</button>
+        <button onclick="confirmAddStock()" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-500">添加并更新对比图表</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== DATA & STATE ====================
+    const PILLARS = [
+      {
+        step: "STEP 01 · 经营底色还原（剔除报表噪音）",
+        title: "分离「表观归母净利」与「真实核心经营利润」，检验极限压力下的毛利率反脆弱性",
+        coreQuestions: [
+          "扣非归母与表观归母的裂口是否由会计分类错配（如外汇套保收益计入非经、汇兑损失留在财务费用）或交易性金融资产市值波动所致？",
+          "在大宗原材料（如铜、钢、能源）创历史新高或行业均价下行期，单季毛利率降幅是否在收窄？",
+          "当期收入或现金流下滑，究竟是被动丢失市场份额，还是主动推进渠道去库变革（如取消压货开盘）？"
+        ],
+        mideaBenchmark: [
+          "【非经与投资噪音剥离】3Q26美的归母净利149.5亿（+25.9%）、扣非91.9亿（-15.7%，较2Q26的-35.98%大幅收窄20.3pct）；主因长鑫科技（4.5亿股转入交易性金融资产）公允价值收益及套保收益在扣非中剔除。还原后单季实际经营利润仅中个位数下滑，与收入（-3.9%）完全匹配。",
+          "【毛利率抗压验证】9月中旬铜价创历史新高，但美的通过滚动套保、研发减材降本、美云销提价及3Q26主动大幅收缩低端品牌「华凌」，使3Q26毛利率同比降幅从2Q26的-0.9pct逆势收窄至-0.5pct（前三季度达26.3%）。",
+          "【主动去库高频验证】7月启动DTC深化变革、率先取消冷年开盘，空调提货率从7月清库谷底（25%-30%）迅速回升至9月的70%，指引4Q26总收入恢复同比正增长。"
+        ],
+        checkFormula: "真实经营利润 = 表观归母净利润 - 产业股权公允价值变动损益 - 一次性退税/处置收益 + 異常商誉减值计提"
+      },
+      {
+        step: "STEP 02 · 业绩韧性与长期复利拆解（杜邦三因子跃迁）",
+        title: "检验ROE能否稳守15%-20%+，以及复利引擎是否完成「周转提效 + 缩股本分母管理」切换",
+        coreQuestions: [
+          "存量时代下，公司ROE是否显著高于同业均值（>15%）且超过股权要求回报率 r（~10%）？",
+          "杜邦三因子中，是否具备高周转率（数字化供应链/一盘货）与权益分母缩减机制（高分红+注销回购），而非单纯依赖脆弱的高毛利？",
+          "海外业务（OBM品牌出海+本土化产能）与第二增长曲线（ToB业务）能否对冲单一内需周期？"
+        ],
+        mideaBenchmark: [
+          "【杜邦三因子标杆】美的24A/25A ROE达20.30%/19.98%，26H1半年度平均ROE 12.13%（领先可比均值8.72%达3.41pct，白电三强唯一同比正增长）。周转率从0.68x加快至0.81x（年化），权益乘数因分红回购缩减净资产分母从2.73x良性升至3.02x。",
+          "【三层增长引擎】① 国内DTC门店直达（高线1.4-1.5万家直供门店，每降库100万台年省1.8亿仓储费，单月700-800万台产能弹性）；② 海外OBM占外销超50%，3Q26提速至+20%+（巴西/埃及OBM净利率已超国内），海外工厂产值占比>30%；③ ToB楼宇科技入围英伟达液冷生态（27H2转化订单），前期并购（东芝/Arbonia/Teka/瑞科）2026全年整体接近扭亏。",
+          "【长期复利测算】内生经营利润增速（6%~8%）+ 注销回购缩股本增厚率（1.5%~2.0%）= 长期EPS复利中枢 8%~10%；叠加5%+股息率，长期年化总回报（TSR）达 13%~15%。"
+        ],
+        checkFormula: "长期预期年化总回报 (TSR) = 内生经营净利复合增速 g + 100%注销式回购收益率 + 纯现金股息率"
+      },
+      {
+        step: "STEP 03 · 多维估值诊断与同业溢价归因",
+        title: "用横截面回归检验PE溢价成色，结合A/H折价与DDM九宫格锁定安全边际",
+        coreQuestions: [
+          "目标标的PE高于同业时，是由高ROE与高增速支撑的合理溢价，还是无法解释的情绪泡沫？",
+          "若为A+H双平台上市，H股折价率与税前股息率差值是否提供跨市场套利安全垫？",
+          "在DDM股息折现模型的保守假设（高折现率 r、低永续增速 g）下，绝对价值底线在哪里？"
+        ],
+        mideaBenchmark: [
+          "【同业溢价回归验证】美的H TTM PE 13.98x 较海尔H（9.12x）溢价53.3%、较可比均值（10.03x）溢价39.4%。截面回归 PE = 1.05 + 1.04×ROE + 0.12×增速（R²=0.91）显示：ROE优势解释了约90%溢价（+3.55x），增速差解释了约7%溢价（+0.26x），不可解释残差仅 +0.14x（3%），溢价完全由基本面支撑。",
+          "【A/H比价优势】H股93.65港元（折合80.39元人民币）较A股10/15收盘84.71元折价5.1%，较电话会基准87.00元折价7.6%，纯股息率高出A股52-60bps。",
+          "【DDM九宫格校验】以26E DPS 4.66元（5.43港元）测算，中性假设（r=10%, g=5%）内在价值108.6港元（现价折价13.8%）；极度保守假设（r=10.5%, g=4.5%）内在价值底线为 90.5港元。"
+        ],
+        checkFormula: "截面回归残差 = 实际 PE(TTM) - [ α + β₁ × ROE + β₂ × 归母净利同比增速 ]"
+      },
+      {
+        step: "STEP 04 · 基于「综合股东回报率 + 纯股息率」的五档建仓矩阵",
+        title: "将100%注销式回购纳入回报主锚，按回报率阈值与无风险利差划分五档击球区",
+        coreQuestions: [
+          "公司回购的股份是100%注销（永久缩减股本分母、免税增厚每股价值），还是用于员工持股激励（实为薪酬成本）？",
+          "计入注销式回购后，综合股东回报率相比10年期中债（~1.8%）与10年期美债（~4.2%）利差是否足够丰厚？",
+          "当前股价在五档建仓阶梯（黄金坑重仓区 / 核心建仓区 / 合理标配区 / 持有观望区 / 分批止盈区）中处于哪一档？"
+        ],
+        mideaBenchmark: [
+          "【综合回报率官方与H股折算】截至10月29日，美的已完成118亿元注销式回购（计划上限130亿），叠加2025同等DPS分红基准，A股87元下综合股东回报率达 6.7%；H股93.65港元下综合股东回报率高达 7.20% - 7.42%（保守纯股息率5.24% + 注销回购收益率1.96%）。",
+          "【五档价格触发器（0300.HK）】① 第一档黄金坑重仓区：78-84港元（综合回报>8.0%，仓位80-100%）；② 第二档高胜率核心建仓区：85-90港元（综合回报7.5%-8.0%，仓位50-70%）；③ 第三档合理标配区：90-96港元（综合回报7.0%-7.5%，底仓30-50%）；④ 第四档持有观望区：96-105港元（A/H平价区）；⑤ 第五档分批止盈区：113-121港元（综合回报<6.0%）。"
+        ],
+        checkFormula: "综合股东回报率 = (每股现金股息 DPS + 年度100%注销式回购总额 / 总股本) ÷ 买入股价"
+      },
+      {
+        step: "STEP 05 · 逻辑证伪红线与防价值陷阱风控",
+        title: "监控现金流覆盖率、高淡仓博弈与核心增长引擎，杜绝「借钱分红」的伪高股息陷阱",
+        coreQuestions: [
+          "公司的分红与回购是由真实经营现金流（稳态 OCF/净利润 ≥ 1.0x）与充沛自有资金支撑，还是靠举债硬撑？",
+          "港股市场的申报淡仓（Short Interest）占自由流通盘比例是否过高，是否存在短期情绪挤压？",
+          "哪些定量指标一旦跌破阈值，必须无条件停止左侧加仓并触发逻辑止损？"
+        ],
+        mideaBenchmark: [
+          "【造血与资金垫校验】3Q26期末美的自有资金超2,300亿元（占市值超34%）；虽3Q26单季OCF因取消开盘降至26.4亿，但管理层明确2027Q2起季度OCF恢复至净利润的 1.0 - 1.1倍。",
+          "【H股筹码与淡仓风控】美的H申报淡仓1.20亿股（占自由流通量18.53%），外资多空对垒显著，故不宜单点满仓，应利用除净（11月6日）或市场波动回踩88-92港元时分档吸纳。",
+          "【三大无条件证伪红线】① 2027Q2起 OCF/净利润未能恢复至0.9x-1.1x或空调提货率跌回50%以下；② 海外OBM单季增速连续两季跌破10%；③ 年度DPS绝对额实质性下调。"
+        ],
+        checkFormula: "安全红线：稳态 OCF / 净利润 ≥ 1.0x 且 期末净现金 > 年度(分红+回购)总额 × 1.5倍"
+      }
+    ];
+
+    const DEFAULT_PEERS = [
+      {
+        id: "midea_h",
+        name: "美的集团H (0300.HK)",
+        isBenchmark: true,
+        currency: "HKD",
+        fx: 1.16498,
+        price: 93.65,
+        asharePrice: 87.00,
+        pe: 13.98,
+        roe: 12.13,
+        annualRoe: 19.98,
+        yoy: 1.66,
+        payout: 73.6,
+        divYield: 5.24,
+        buybackYield: 1.96,
+        g: 6.5,
+        dpsBase: 4.91,
+        dpsFwd: 5.43,
+        buybackRmbBn: 118.0,
+        sharesBn: 76.0,
+        epsFwd: 7.34,
+        ocfRatio: 1.05,
+        shortRatio: 18.53
+      },
+      {
+        id: "haier_h",
+        name: "海尔智家H (6690.HK)",
+        isBenchmark: false,
+        currency: "HKD",
+        fx: 1.16498,
+        price: 26.50,
+        asharePrice: 28.50,
+        pe: 9.12,
+        roe: 8.66,
+        annualRoe: 16.50,
+        yoy: -14.27,
+        payout: 55.0,
+        divYield: 6.61,
+        buybackYield: 0.30,
+        g: 4.5,
+        dpsBase: 1.75,
+        dpsFwd: 1.85,
+        buybackRmbBn: 7.0,
+        sharesBn: 94.3,
+        epsFwd: 3.05,
+        ocfRatio: 1.00,
+        shortRatio: 8.20
+      },
+      {
+        id: "gree_a",
+        name: "格力电器A (000651.SZ)",
+        isBenchmark: false,
+        currency: "CNY",
+        fx: 1.0,
+        price: 41.20,
+        asharePrice: 41.20,
+        pe: 7.98,
+        roe: 9.02,
+        annualRoe: 21.00,
+        yoy: -7.87,
+        payout: 57.8,
+        divYield: 7.53,
+        buybackYield: 0.50,
+        g: 1.5,
+        dpsBase: 3.10,
+        dpsFwd: 3.15,
+        buybackRmbBn: 11.5,
+        sharesBn: 56.3,
+        epsFwd: 5.48,
+        ocfRatio: 0.92,
+        shortRatio: 1.50
+      },
+      {
+        id: "hisense_h",
+        name: "海信家电H (0921.HK)",
+        isBenchmark: false,
+        currency: "HKD",
+        fx: 1.16498,
+        price: 24.80,
+        asharePrice: 26.80,
+        pe: 8.88,
+        roe: 9.49,
+        annualRoe: 18.20,
+        yoy: -20.16,
+        payout: 50.0,
+        divYield: 7.16,
+        buybackYield: 0.00,
+        g: 4.0,
+        dpsBase: 1.78,
+        dpsFwd: 1.85,
+        buybackRmbBn: 0.0,
+        sharesBn: 13.8,
+        epsFwd: 2.95,
+        ocfRatio: 0.90,
+        shortRatio: 6.40
+      },
+      {
+        id: "tcl_h",
+        name: "TCL电子 (1070.HK)",
+        isBenchmark: false,
+        currency: "HKD",
+        fx: 1.16498,
+        price: 6.45,
+        asharePrice: 6.45,
+        pe: 14.14,
+        roe: 7.71,
+        annualRoe: 11.50,
+        yoy: 40.20,
+        payout: 50.0,
+        divYield: 3.03,
+        buybackYield: 0.20,
+        g: 8.0,
+        dpsBase: 0.20,
+        dpsFwd: 0.25,
+        buybackRmbBn: 0.3,
+        sharesBn: 25.2,
+        epsFwd: 0.50,
+        ocfRatio: 0.88,
+        shortRatio: 3.10
+      }
+    ];
+
+    let peerList = JSON.parse(JSON.stringify(DEFAULT_PEERS));
+    let chartPeRoe = null;
+    let chartTsrStack = null;
+
+    // ==================== UI & TAB NAVIGATION ====================
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const text = document.getElementById('toast-message');
+      text.textContent = msg;
+      container.classList.remove('hidden');
+      setTimeout(() => {
+        container.classList.add('hidden');
+      }, 2800);
+    }
+
+    function switchTab(tab) {
+      const tabs = ['framework', 'compare', 'calculator', 'markdown'];
+      tabs.forEach(t => {
+        const view = document.getElementById('view-' + t);
+        const btn = document.getElementById('btn-nav-' + t);
+        if (t === tab) {
+          view.classList.remove('hidden');
+          btn.className = 'tab-active px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all';
+        } else {
+          view.classList.add('hidden');
+          btn.className = 'tab-inactive px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all';
+        }
+      });
+      if (tab === 'compare') {
+        renderPeerTable();
+        renderCharts();
+      } else if (tab === 'calculator') {
+        runCalculator();
+      } else if (tab === 'markdown') {
+        generateMarkdownText();
+      }
+    }
+
+    // ==================== TAB 1: PILLARS ====================
+    function selectPillar(index) {
+      for (let i = 0; i < PILLARS.length; i++) {
+        const btn = document.getElementById('pillar-btn-' + i);
+        const stepLabel = btn.querySelector('div:first-child');
+        if (i === index) {
+          btn.className = 'p-3.5 rounded-xl border text-left transition-all bg-blue-50/80 border-blue-600 ring-1 ring-blue-600';
+          stepLabel.className = 'text-xs font-bold text-blue-700';
+        } else {
+          btn.className = 'p-3.5 rounded-xl border text-left transition-all bg-white border-slate-200 hover:bg-slate-50';
+          stepLabel.className = 'text-xs font-bold text-slate-400';
+        }
+      }
+      const p = PILLARS[index];
+      const container = document.getElementById('pillar-detail-container');
+      container.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">${p.step}</span>
+              <h4 class="text-sm sm:text-base font-bold text-slate-900 mt-0.5">${p.title}</h4>
+            </div>
+            <div class="text-xs font-mono bg-slate-900 text-blue-300 px-3 py-1.5 rounded-lg">
+              ${p.checkFormula}
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-5 bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+              <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span> 通用投研审视三问（分析其他高股息标的必查）
+              </div>
+              <ul class="space-y-2 text-xs text-slate-600 list-disc pl-4 leading-relaxed">
+                ${p.coreQuestions.map(q => `<li>${q}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="lg:col-span-7 bg-white p-4 rounded-xl border border-blue-200/80 space-y-2">
+              <div class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 美的集团 (0300.HK / 000333.SZ) 2026Q3 标杆基准参数
+              </div>
+              <ul class="space-y-2 text-xs text-slate-700 list-disc pl-4 leading-relaxed">
+                ${p.mideaBenchmark.map(b => `<li>${b}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==================== TAB 2: PEER COMPARISON & CHARTS ====================
+    function renderPeerTable() {
+      const tbody = document.getElementById('peer-table-body');
+      tbody.innerHTML = peerList.map((item, idx) => {
+        const compYield = (item.divYield + item.buybackYield).toFixed(2);
+        const tsr = (item.divYield + item.buybackYield + item.g).toFixed(2);
+        const rowBg = item.isBenchmark ? 'bg-blue-50/50 font-medium' : 'bg-white hover:bg-slate-50';
+        const yoyClass = item.yoy >= 0 ? 'text-emerald-600 font-semibold' : 'text-rose-600';
+        return `
+          <tr class="${rowBg}">
+            <td class="py-3 px-3">
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-slate-900">${item.name}</span>
+                ${item.isBenchmark ? '<span class="px-1.5 py-0.5 text-[10px] bg-blue-600 text-white rounded font-semibold">标杆基准</span>' : ''}
+              </div>
+            </td>
+            <td class="py-3 px-3 text-right font-mono">${item.price.toFixed(2)} <span class="text-[10px] text-slate-400">${item.currency}</span></td>
+            <td class="py-3 px-3 text-right font-mono">${item.pe.toFixed(2)}x</td>
+            <td class="py-3 px-3 text-right font-mono font-semibold text-slate-800">${item.roe.toFixed(2)}%</td>
+            <td class="py-3 px-3 text-right font-mono ${yoyClass}">${item.yoy >= 0 ? '+' : ''}${item.yoy.toFixed(2)}%</td>
+            <td class="py-3 px-3 text-right font-mono">${item.payout.toFixed(1)}%</td>
+            <td class="py-3 px-3 text-right font-mono">${item.divYield.toFixed(2)}%</td>
+            <td class="py-3 px-3 text-right font-mono text-blue-600">+${item.buybackYield.toFixed(2)}%</td>
+            <td class="py-3 px-3 text-right font-mono font-bold text-blue-700 bg-blue-50/80">${compYield}%</td>
+            <td class="py-3 px-3 text-right font-mono text-slate-600">+${item.g.toFixed(1)}%</td>
+            <td class="py-3 px-3 text-right font-mono font-bold text-emerald-700 bg-emerald-50/80">${tsr}%</td>
+            <td class="py-3 px-3 text-center">
+              <div class="flex items-center justify-center gap-1">
+                <button onclick="jumpToCalcWithStock('${item.id}')" class="px-2 py-1 bg-slate-900 hover:bg-blue-600 text-white text-[11px] rounded transition">
+                  载入测算
+                </button>
+                ${!item.isBenchmark ? `<button onclick="removePeer(${idx})" class="px-1.5 py-1 text-slate-400 hover:text-rose-600 text-xs" title="移除">✕</button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      populatePresetSelect();
+    }
+
+    function renderCharts() {
+      const ctx1 = document.getElementById('chart-pe-roe').getContext('2d');
+      const ctx2 = document.getElementById('chart-tsr-stack').getContext('2d');
+
+      if (chartPeRoe) chartPeRoe.destroy();
+      if (chartTsrStack) chartTsrStack.destroy();
+
+      // Scatter points & regression line PE = 1.05 + 1.04 * ROE
+      const scatterPoints = peerList.map(p => ({
+        x: p.roe,
+        y: p.pe,
+        label: p.name
+      }));
+
+      chartPeRoe = new Chart(ctx1, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: '可比标的 (ROE vs TTM PE)',
+              data: scatterPoints,
+              backgroundColor: peerList.map(p => p.isBenchmark ? '#2563eb' : '#0f172a'),
+              pointRadius: peerList.map(p => p.isBenchmark ? 8 : 6),
+              pointHoverRadius: 10
+            },
+            {
+              type: 'line',
+              label: '基本面回归线 (PE = 1.05 + 1.04×ROE)',
+              data: [
+                { x: 6.5, y: 1.05 + 1.04 * 6.5 },
+                { x: 14.0, y: 1.05 + 1.04 * 14.0 }
+              ],
+              borderColor: '#94a3b8',
+              borderDash: [6, 4],
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const pt = context.raw;
+                  if (!pt.label) return '';
+                  const impliedPe = (1.05 + 1.04 * pt.x).toFixed(2);
+                  return `${pt.label}: ROE ${pt.x}% | 实际PE ${pt.y}x (回归隐含PE ~${impliedPe}x)`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: '26H1 半年度平均 ROE (%)', font: { size: 11 } },
+              min: 6,
+              max: 14
+            },
+            y: {
+              title: { display: true, text: 'PE (TTM, 倍)', font: { size: 11 } },
+              min: 5,
+              max: 18
+            }
+          }
+        }
+      });
+
+      chartTsrStack = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: peerList.map(p => p.name.split(' ')[0]),
+          datasets: [
+            {
+              label: '纯现金股息率 (%)',
+              data: peerList.map(p => p.divYield),
+              backgroundColor: '#1e293b'
+            },
+            {
+              label: '100%注销式回购收益率 (%)',
+              data: peerList.map(p => p.buybackYield),
+              backgroundColor: '#2563eb'
+            },
+            {
+              label: '预期内生利润增速 g (%)',
+              data: peerList.map(p => p.g),
+              backgroundColor: '#10b981'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { stacked: true },
+            y: {
+              stacked: true,
+              title: { display: true, text: '预期年化总回报 TSR (%)', font: { size: 11 } },
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function toggleAddStockModal(show) {
+      const modal = document.getElementById('modal-add-stock');
+      if (show) modal.classList.remove('hidden');
+      else modal.classList.add('hidden');
+    }
+
+    function confirmAddStock() {
+      const name = document.getElementById('add-name').value.trim() || '自定义高股息标的';
+      const price = parseFloat(document.getElementById('add-price').value) || 30.0;
+      const currency = document.getElementById('add-curr').value;
+      const pe = parseFloat(document.getElementById('add-pe').value) || 10.0;
+      const roe = parseFloat(document.getElementById('add-roe').value) || 9.0;
+      const yoy = parseFloat(document.getElementById('add-yoy').value) || 0.0;
+      const payout = parseFloat(document.getElementById('add-payout').value) || 60.0;
+      const divYield = parseFloat(document.getElementById('add-div').value) || 6.0;
+      const buybackYield = parseFloat(document.getElementById('add-bb').value) || 0.0;
+      const g = parseFloat(document.getElementById('add-g').value) || 4.0;
+
+      const fx = currency === 'HKD' ? 1.16498 : 1.0;
+      const dpsBase = +(price * (divYield / 100)).toFixed(2);
+      const dpsFwd = +(dpsBase * (1 + g / 100)).toFixed(2);
+      const epsFwd = +(price / pe).toFixed(2);
+
+      const newItem = {
+        id: 'custom_' + Date.now(),
+        name,
+        isBenchmark: false,
+        currency,
+        fx,
+        price,
+        asharePrice: +(price / fx).toFixed(2),
+        pe,
+        roe,
+        annualRoe: +(roe * 1.65).toFixed(2),
+        yoy,
+        payout,
+        divYield,
+        buybackYield,
+        g,
+        dpsBase,
+        dpsFwd,
+        buybackRmbBn: +(buybackYield * 10).toFixed(1),
+        sharesBn: 50.0,
+        epsFwd,
+        ocfRatio: 1.05,
+        shortRatio: 3.5
+      };
+
+      peerList.push(newItem);
+      toggleAddStockModal(false);
+      renderPeerTable();
+      renderCharts();
+      showToast(`已添加「${name}」并更新对比图表`);
+    }
+
+    function removePeer(index) {
+      if (peerList[index] && !peerList[index].isBenchmark) {
+        const removed = peerList.splice(index, 1);
+        renderPeerTable();
+        renderCharts();
+        showToast(`已移除 ${removed[0].name}`);
+      }
+    }
+
+    function resetPeerList() {
+      peerList = JSON.parse(JSON.stringify(DEFAULT_PEERS));
+      renderPeerTable();
+      renderCharts();
+      showToast('已恢复默认白电与高股息可比组');
+    }
+
+    // ==================== TAB 3: DYNAMIC CALCULATOR ====================
+    function populatePresetSelect() {
+      const sel = document.getElementById('calc-preset-select');
+      if (!sel) return;
+      const currentVal = sel.value;
+      sel.innerHTML = peerList.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+      if (currentVal && peerList.some(p => p.id === currentVal)) {
+        sel.value = currentVal;
+      }
+    }
+
+    function jumpToCalcWithStock(stockId) {
+      switchTab('calculator');
+      const sel = document.getElementById('calc-preset-select');
+      sel.value = stockId;
+      loadPresetToCalculator(stockId);
+      showToast('已载入标的参数至建仓测算器');
+    }
+
+    function loadPresetToCalculator(stockId) {
+      const item = peerList.find(p => p.id === stockId) || peerList[0];
+      document.getElementById('inp-name').value = item.name;
+      document.getElementById('inp-currency').value = item.currency;
+      document.getElementById('inp-fx').value = item.fx;
+      document.getElementById('inp-price').value = item.price;
+      document.getElementById('sld-price').min = Math.max(1, Math.floor(item.price * 0.4));
+      document.getElementById('sld-price').max = Math.ceil(item.price * 1.8);
+      document.getElementById('sld-price').value = item.price;
+      document.getElementById('inp-ashare').value = item.asharePrice;
+      document.getElementById('inp-dps-base').value = item.dpsBase;
+      document.getElementById('inp-dps-fwd').value = item.dpsFwd;
+      document.getElementById('inp-buyback').value = item.buybackRmbBn;
+      document.getElementById('inp-shares').value = item.sharesBn;
+      document.getElementById('inp-eps').value = item.epsFwd;
+      document.getElementById('inp-r').value = 10.0;
+      document.getElementById('inp-g').value = Math.min(8.0, Math.max(1.5, item.g));
+      document.getElementById('inp-ocf').value = item.ocfRatio;
+      document.getElementById('inp-short').value = item.shortRatio;
+      runCalculator();
+    }
+
+    function syncSlider(key, val) {
+      document.getElementById('sld-' + key).value = val;
+      runCalculator();
+    }
+
+    function syncInput(key, val) {
+      document.getElementById('inp-' + key).value = val;
+      runCalculator();
+    }
+
+    function runCalculator() {
+      const name = document.getElementById('inp-name').value || '目标标的';
+      const currency = document.getElementById('inp-currency').value;
+      const fx = parseFloat(document.getElementById('inp-fx').value) || 1.0;
+      const price = parseFloat(document.getElementById('inp-price').value) || 1.0;
+      const asharePrice = parseFloat(document.getElementById('inp-ashare').value) || 1.0;
+      const dpsBase = parseFloat(document.getElementById('inp-dps-base').value) || 0;
+      const dpsFwd = parseFloat(document.getElementById('inp-dps-fwd').value) || 0;
+      const buybackRmbBn = parseFloat(document.getElementById('inp-buyback').value) || 0;
+      const sharesBn = parseFloat(document.getElementById('inp-shares').value) || 1.0;
+      const epsFwd = parseFloat(document.getElementById('inp-eps').value) || 1.0;
+      const r = parseFloat(document.getElementById('inp-r').value) || 10.0;
+      const g = parseFloat(document.getElementById('inp-g').value) || 5.0;
+      const ocfRatio = parseFloat(document.getElementById('inp-ocf').value) || 1.0;
+      const shortRatio = parseFloat(document.getElementById('inp-short').value) || 0.0;
+
+      document.querySelectorAll('.lbl-curr').forEach(el => { el.textContent = currency; });
+      document.getElementById('lbl-r').textContent = r.toFixed(2) + '%';
+      document.getElementById('lbl-g').textContent = g.toFixed(2) + '%';
+
+      const rmbPrice = price / fx;
+      document.getElementById('out-rmb-price').textContent = rmbPrice.toFixed(2);
+
+      // Buyback per share in local currency
+      const buybackPerShareLocal = (buybackRmbBn / sharesBn) * fx;
+      document.getElementById('out-buyback-ps').textContent = `${buybackPerShareLocal.toFixed(2)} ${currency}/股`;
+
+      // Yields at current price
+      const divYieldBase = (dpsBase / price) * 100;
+      const divYieldFwd = (dpsFwd / price) * 100;
+      const bbYield = (buybackPerShareLocal / price) * 100;
+      const compYieldBase = divYieldBase + bbYield;
+      const compYieldFwd = divYieldFwd + bbYield;
+
+      document.getElementById('calc-title-out').textContent = `${name} @ ${price.toFixed(2)} ${currency}`;
+      document.getElementById('out-div-yield').textContent = `${divYieldBase.toFixed(2)}% / ${divYieldFwd.toFixed(2)}%`;
+      const spreadCn = Math.round((divYieldBase - 1.80) * 100);
+      document.getElementById('out-spread-cn').textContent = `${spreadCn >= 0 ? '+' : ''}${spreadCn}bp`;
+
+      document.getElementById('out-total-yield').textContent = `${compYieldBase.toFixed(2)}% - ${compYieldFwd.toFixed(2)}%`;
+      document.getElementById('out-bb-yield').textContent = `+${bbYield.toFixed(2)}%`;
+
+      // DDM Mid Value
+      const rgDiff = Math.max(0.01, (r - g) / 100);
+      const ddmMidLocal = dpsFwd / rgDiff;
+      const ddmMarginPct = ((ddmMidLocal - price) / ddmMidLocal) * 100;
+      document.getElementById('out-ddm-mid').textContent = `${ddmMidLocal.toFixed(2)} ${currency}`;
+      document.getElementById('out-ddm-margin').textContent = ddmMarginPct >= 0
+        ? `较内在价值折价 +${ddmMarginPct.toFixed(1)}%`
+        : `较内在价值溢价 ${ddmMarginPct.toFixed(1)}%`;
+
+      // A/H discount
+      const ahDiffPct = ((rmbPrice - asharePrice) / asharePrice) * 100;
+      document.getElementById('out-ah-discount').textContent = ahDiffPct <= 0
+        ? `折价 ${ahDiffPct.toFixed(2)}%`
+        : `溢价 +${ahDiffPct.toFixed(2)}%`;
+      document.getElementById('out-pe-fwd').textContent = `26E PE: ${(price / epsFwd).toFixed(2)}x`;
+
+      // 3 Guardrail Checks
+      const guardContainer = document.getElementById('guardrail-box');
+      const ocfOk = ocfRatio >= 0.95;
+      const bbOk = buybackRmbBn > 0;
+      const shortWarn = shortRatio >= 12.0;
+      guardContainer.innerHTML = `
+        <div class="px-3 py-2 rounded-lg border ${ocfOk ? 'bg-emerald-950/50 border-emerald-700/60 text-emerald-300' : 'bg-rose-950/60 border-rose-700 text-rose-300'}">
+          <div class="font-semibold">${ocfOk ? '✓ 现金流覆盖达标' : '⚠ 现金流覆盖偏弱'}</div>
+          <div class="text-[11px] opacity-85">稳态 OCF/净利 = ${ocfRatio.toFixed(2)}x (标准 ≥1.0x)</div>
+        </div>
+        <div class="px-3 py-2 rounded-lg border ${bbOk ? 'bg-blue-950/50 border-blue-700/60 text-blue-300' : 'bg-slate-800 border-slate-700 text-slate-300'}">
+          <div class="font-semibold">${bbOk ? '✓ 100%注销回购赋能' : '• 无注销回购增厚'}</div>
+          <div class="text-[11px] opacity-85">每股增厚 ${buybackPerShareLocal.toFixed(2)} ${currency} (+${bbYield.toFixed(2)}%)</div>
+        </div>
+        <div class="px-3 py-2 rounded-lg border ${shortWarn ? 'bg-amber-950/50 border-amber-700/60 text-amber-300' : 'bg-emerald-950/50 border-emerald-700/60 text-emerald-300'}">
+          <div class="font-semibold">${shortWarn ? '⚠ 淡仓占比较高: 分档买入' : '✓ 空头淡仓压力温和'}</div>
+          <div class="text-[11px] opacity-85">申报淡仓占流通盘 ${shortRatio.toFixed(2)}%</div>
+        </div>
+      `;
+
+      // 5 Tiers Calculation based on total shareholder return (dpsBase + buybackPerShareLocal)
+      const totalReturnNumeratorBase = dpsBase + buybackPerShareLocal;
+      const totalReturnNumeratorFwd = dpsFwd + buybackPerShareLocal;
+      const avgNumerator = (totalReturnNumeratorBase + totalReturnNumeratorFwd) / 2;
+
+      const tiers = [
+        {
+          name: "第一档：黄金坑重仓区",
+          sub: "极度低估 / 历史大底锚",
+          yieldRange: "8.05% ~ 8.90%",
+          yLow: 0.0805,
+          yHigh: 0.0890,
+          action: "左侧果断重仓/满仓（目标仓位 80%-100%），赔率 > 2.5:1",
+          badgeClass: "bg-emerald-600 text-white"
+        },
+        {
+          name: "第二档：高胜率核心建仓区",
+          sub: "DDM 保守内在价值底线",
+          yieldRange: "7.47% ~ 8.05%",
+          yLow: 0.0747,
+          yHigh: 0.0805,
+          action: "主力左侧分批建仓区（目标仓位 50%-70%），越跌越买",
+          badgeClass: "bg-emerald-500/20 border border-emerald-400 text-emerald-300"
+        },
+        {
+          name: "第三档：合理偏低标配区",
+          sub: "A/H 折价套利与底仓区",
+          yieldRange: "7.00% ~ 7.47%",
+          yLow: 0.0700,
+          yHigh: 0.0747,
+          action: "建立 30%-50% 基础底仓，配合除净或经营拐点右侧加仓",
+          badgeClass: "bg-blue-500/20 border border-blue-400 text-blue-300"
+        },
+        {
+          name: "第四档：持有观望区",
+          sub: "A/H 平价与合理估值中枢",
+          yieldRange: "6.40% ~ 7.00%",
+          yLow: 0.0640,
+          yHigh: 0.0700,
+          action: "停止追高买入，已持仓者安心持有吃息，等待新催化",
+          badgeClass: "bg-amber-500/20 border border-amber-400 text-amber-300"
+        },
+        {
+          name: "第五档：分批止盈区",
+          sub: "卖方目标价上轨 / 估值兑现",
+          yieldRange: "5.55% ~ 6.15%",
+          yLow: 0.0555,
+          yHigh: 0.0615,
+          action: "类债吸引力减弱，建议分批减仓止盈 30%-50%",
+          badgeClass: "bg-rose-500/20 border border-rose-400 text-rose-300"
+        }
+      ];
+
+      let activeTierBadge = "第四档：持有观望区";
+      let activeTierClass = tiers[3].badgeClass;
+
+      const tierRowsHtml = tiers.map((t, idx) => {
+        const pLow = avgNumerator / t.yHigh;
+        const pHigh = avgNumerator / t.yLow;
+        const divLow = (dpsBase / pHigh) * 100;
+        const divHigh = (dpsBase / pLow) * 100;
+        const peLow = pLow / epsFwd;
+        const peHigh = pHigh / epsFwd;
+
+        const isCurrent = (price >= pLow && price <= pHigh) ||
+          (idx === 0 && price < pLow) ||
+          (idx === 4 && price > pHigh);
+
+        if (isCurrent) {
+          activeTierBadge = t.name;
+          activeTierClass = t.badgeClass;
+        }
+
+        return `
+          <tr class="${isCurrent ? 'bg-blue-50/90 ring-1 ring-inset ring-blue-500 font-semibold' : 'bg-white'}">
+            <td class="py-2.5 px-3">
+              <div class="text-slate-900 font-bold flex items-center gap-1.5">
+                ${t.name}
+                ${isCurrent ? '<span class="px-1.5 py-0.5 text-[10px] bg-blue-600 text-white rounded">当前所处档位</span>' : ''}
+              </div>
+              <div class="text-[11px] text-slate-500 font-normal">${t.sub}</div>
+            </td>
+            <td class="py-2.5 px-3 font-mono text-blue-700 font-bold">${t.yieldRange}</td>
+            <td class="py-2.5 px-3 font-mono text-slate-900">${pLow.toFixed(1)} ~ ${pHigh.toFixed(1)} ${currency}</td>
+            <td class="py-2.5 px-3 font-mono text-slate-700">${divLow.toFixed(2)}% ~ ${divHigh.toFixed(2)}%</td>
+            <td class="py-2.5 px-3 font-mono text-slate-600">${peLow.toFixed(1)}x ~ ${peHigh.toFixed(1)}x</td>
+            <td class="py-2.5 px-3 text-slate-700">${t.action}</td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('tier-table-body').innerHTML = tierRowsHtml;
+      const badgeEl = document.getElementById('calc-tier-badge');
+      badgeEl.textContent = activeTierBadge;
+      badgeEl.className = `px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold self-start sm:self-auto ${activeTierClass}`;
+
+      // DDM 3x3 Grid
+      const rVals = [r - 0.5, r, r + 0.5];
+      const gVals = [g - 0.5, g, g + 0.5];
+
+      let ddmHtml = `
+        <thead>
+          <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+            <th class="py-2 px-3 text-left">折现率 r \\ 永续增速 g</th>
+            ${gVals.map(gv => `<th class="py-2 px-3">g = ${gv.toFixed(2)}%</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+      `;
+
+      rVals.forEach((rv, rIdx) => {
+        ddmHtml += `<tr><td class="py-2.5 px-3 text-left font-semibold bg-slate-50">r = ${rv.toFixed(2)}%</td>`;
+        gVals.forEach((gv, gIdx) => {
+          const diff = Math.max(0.005, (rv - gv) / 100);
+          const valLocal = dpsFwd / diff;
+          const margin = ((valLocal - price) / valLocal) * 100;
+          const isCenter = rIdx === 1 && gIdx === 1;
+          const cellClass = isCenter
+            ? 'bg-blue-50 font-bold text-blue-900 ring-1 ring-inset ring-blue-400'
+            : (margin >= 0 ? 'text-emerald-700' : 'text-rose-600');
+          ddmHtml += `
+            <td class="py-2.5 px-3 font-mono ${cellClass}">
+              <div>${valLocal.toFixed(2)} ${currency}</div>
+              <div class="text-[10px]">(${margin >= 0 ? '折价+' : '溢价'}${margin.toFixed(1)}%)</div>
+            </td>
+          `;
+        });
+        ddmHtml += `</tr>`;
+      });
+      ddmHtml += `</tbody>`;
+      document.getElementById('ddm-grid-table').innerHTML = ddmHtml;
+    }
+
+    // ==================== TAB 4: MARKDOWN EXPORT ====================
+    function generateMarkdownText() {
+      const name = document.getElementById('inp-name').value || '美的集团H (0300.HK)';
+      const currency = document.getElementById('inp-currency').value;
+      const fx = parseFloat(document.getElementById('inp-fx').value) || 1.16498;
+      const price = parseFloat(document.getElementById('inp-price').value) || 93.65;
+      const dpsBase = parseFloat(document.getElementById('inp-dps-base').value) || 4.91;
+      const dpsFwd = parseFloat(document.getElementById('inp-dps-fwd').value) || 5.43;
+      const buybackRmbBn = parseFloat(document.getElementById('inp-buyback').value) || 118.0;
+      const sharesBn = parseFloat(document.getElementById('inp-shares').value) || 76.0;
+      const r = parseFloat(document.getElementById('inp-r').value) || 10.0;
+      const g = parseFloat(document.getElementById('inp-g').value) || 5.0;
+
+      const buybackPerShareLocal = (buybackRmbBn / sharesBn) * fx;
+      const divYieldBase = ((dpsBase / price) * 100).toFixed(2);
+      const bbYield = ((buybackPerShareLocal / price) * 100).toFixed(2);
+      const compYield = (parseFloat(divYieldBase) + parseFloat(bbYield)).toFixed(2);
+      const avgNum = ((dpsBase + dpsFwd) / 2) + buybackPerShareLocal;
+      const ddmVal = (dpsFwd / Math.max(0.01, (r - g) / 100)).toFixed(2);
+
+      const md = `# 高股息与综合股东回报投研分析框架模板（标杆基准：美的集团 0300.HK）
+
+## 一、 框架核心公式与分析原则
+1. **核心经营利润还原公式**：
+   \`核心经营利润 = 表观归母净利润 - 交易性金融资产公允价值变动损益 - 非经常性退税/处置收益 + 异常商誉减值\`
+2. **长期每股复利（EPS Compounding）与总回报（TSR）公式**：
+   - \`EPS 长期复利增速 = 内生经营利润复合增速 g (6%~8%) + 100%注销式回购缩股本增厚率 (1.5%~2.0%)\`
+   - \`预期年化总回报 (TSR) = 纯现金股息率 + 100%注销式回购收益率 + 内生经营利润增速 g\`
+3. **综合股东回报率主锚公式（建仓时机标尺）**：
+   - \`综合股东回报率 = (每股现金股息 DPS + 年度100%注销式回购金额 / 总股本) ÷ 买入股价\`
+
+## 二、 当前测算标的快照：${name}
+- **当前买入价格**：${price.toFixed(2)} ${currency}（折合人民币 ${(price / fx).toFixed(2)} 元）
+- **保守纯现金股息率**：${divYieldBase}%（基准 DPS = ${dpsBase.toFixed(2)} ${currency}）
+- **100%注销式回购增厚率**：+${bbYield}%（注销回购额 ${buybackRmbBn} 亿人民币，折合每股增厚 ${buybackPerShareLocal.toFixed(2)} ${currency}）
+- **综合股东回报率（主锚）**：**${compYield}%**
+- **DDM 中性内在价值（r=${r}%, g=${g}%）**：**${ddmVal} ${currency}**
+
+## 三、 五档建仓与止盈价格触发矩阵（${name}）
+
+| 档位名称 | 目标综合股东回报率 | 触发价格区间 (${currency}) | 仓位管理与执行纪律 |
+| :--- | :---: | :---: | :--- |
+| **第一档：黄金坑重仓区** | 8.05% ~ 8.90% | ${(avgNum / 0.0890).toFixed(1)} ~ ${(avgNum / 0.0805).toFixed(1)} | 极度低估大底，左侧果断重仓 80% - 100% |
+| **第二档：高胜率核心建仓区** | 7.47% ~ 8.05% | ${(avgNum / 0.0805).toFixed(1)} ~ ${(avgNum / 0.0747).toFixed(1)} | 对应DDM保守价值底线，主力左侧分批建仓 50% - 70% |
+| **第三档：合理偏低标配区** | 7.00% ~ 7.47% | ${(avgNum / 0.0747).toFixed(1)} ~ ${(avgNum / 0.0700).toFixed(1)} | 折价安全垫充足，建立 30% - 50% 底仓，右侧催化加仓 |
+| **第四档：持有观望区** | 6.40% ~ 7.00% | ${(avgNum / 0.0700).toFixed(1)} ~ ${(avgNum / 0.0640).toFixed(1)} | 估值回归合理中枢，停止追高，安心持有吃息 |
+| **第五档：分批止盈区** | 5.55% ~ 6.15% | ${(avgNum / 0.0615).toFixed(1)} ~ ${(avgNum / 0.0555).toFixed(1)} | 类债利差收窄，分批减仓止盈 30% - 50% |
+
+## 四、 多标的横向对比表（美的 0300.HK 标杆对照）
+
+| 公司名称 (代码) | 当前股价 | PE (TTM) | 26H1平均ROE | 归母净利YoY | 纯股息率 | 注销回购率 | 综合股东回报率 | 预期内生增速g | 预期年化TSR |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+${peerList.map(p => `| ${p.name} | ${p.price.toFixed(2)} ${p.currency} | ${p.pe.toFixed(2)}x | ${p.roe.toFixed(2)}% | ${p.yoy >= 0 ? '+' : ''}${p.yoy.toFixed(2)}% | ${p.divYield.toFixed(2)}% | +${p.buybackYield.toFixed(2)}% | **${(p.divYield + p.buybackYield).toFixed(2)}%** | +${p.g.toFixed(1)}% | **${(p.divYield + p.buybackYield + p.g).toFixed(2)}%** |`).join('\n')}
+
+## 五、 防“伪高股息陷阱”三项必查红线
+1. **现金流覆盖红线**：稳态 \`经营活动现金流净额 / 净利润\` 是否 ≥ 1.0x？账面净现金是否足以覆盖分红与回购？
+2. **回购成色红线**：回购股份是否明确为 **100%注销**（缩减股本分母），而非低价转授管理层/员工持股（薪酬费用）？
+3. **逻辑证伪止损线**：若核心业务份额持续流失、海外/第二曲线增速连续两季跌破10%、或管理层违背DPS稳定承诺，立即停止左侧摊平。
+`;
+      document.getElementById('md-template-output').value = md;
+    }
+
+    function copyMarkdownTemplate() {
+      const textarea = document.getElementById('md-template-output');
+      textarea.select();
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textarea.value).then(() => {
+            showToast('已复制 Markdown 模板至剪贴板');
+          }).catch(() => {
+            document.execCommand('copy');
+            showToast('已复制 Markdown 模板至剪贴板');
+          });
+        } else {
+          document.execCommand('copy');
+          showToast('已复制 Markdown 模板至剪贴板');
+        }
+      } catch (e) {
+        document.execCommand('copy');
+        showToast('已复制 Markdown 模板至剪贴板');
+      }
+    }
+
+    function downloadMarkdownTemplate() {
+      const content = document.getElementById('md-template-output').value;
+      const blob = new Blob([content], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'high_dividend_investment_framework.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('已触发下载 high_dividend_investment_framework.md');
+    }
+
+    // ==================== INITIALIZATION ====================
+    window.onload = function() {
+      selectPillar(0);
+      renderPeerTable();
+      loadPresetToCalculator('midea_h');
+      generateMarkdownText();
+    };
+  </script>
+</body>
+</html>
